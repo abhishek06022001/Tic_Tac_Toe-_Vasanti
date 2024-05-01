@@ -47,9 +47,10 @@ function Cell() {
         setToken
     };
 }
-const GameController = (function GameController(
-    playerone = "KingShuk",
-    playertwo = "Yashwant"
+function GameController(
+    //playerone = "KingShuk",
+    playerone = "p1",
+    playertwo = "p2",
 ) {
 
     const game_board = gameboard;
@@ -170,6 +171,12 @@ const GameController = (function GameController(
             });
         });
     }
+    function playersreturn(i){
+        return players[i].name;
+    }
+    function seyplayer(i,pname){
+        players[i].name = pname;
+    }
     return {
         getBoard: game_board.getBoard,
         printBoard: game_board.printBoard,
@@ -183,30 +190,46 @@ const GameController = (function GameController(
         check_wins,
         resetGame,
         gamestatus,
+        seyplayer
 
     }
-})();
+};
 const ScreenController = (function ScreenController() {
+    const modal = document.querySelector('.Modal')
+    const button = document.querySelector('#submit')
+
+    
 
 
     const reset = document.querySelector('.btn-light');
     const newGame = document.querySelector('.btn-dark');
 
-    const gameController = GameController;
+    const game = GameController();
     const playerturnDiv = document.querySelector('.turn');// update here
     const boardDiv = document.querySelector(".board");
+    button.addEventListener('click',function(e){
+        e.preventDefault();
+        // game.playerone=document.querySelector("#playerOne").value;
+        game.seyplayer(0, document.querySelector("#playerOne").value);
+        game.seyplayer(1, document.querySelector("#playerTwo").value);
 
+        // console.log(GameController.playerone);
+
+        modal.style.display = "none";
+        updateScreen();
+    })
     function updateScreen(e) {
 
         boardDiv.textContent = "";
         // get current board 
-        const board = gameController.getBoard();
-        const activePlayer = gameController.getActivePlayer();
-        const playerOneScore = gameController.playerOneScore();
-        const playerTwoScore = gameController.playerTwoScore();
+        const board = game.getBoard();
+        const activePlayer = game.getActivePlayer();
+        const playerOneScore = game.playerOneScore();
+        const playerTwoScore = game.playerTwoScore();
         const score1 = document.querySelector('#score1');
         const score2 = document.querySelector('#score2');
         score1.value = playerOneScore;
+        console.log(game.players);
         score2.value = playerTwoScore;
 
         //add cell css  to that 
@@ -227,12 +250,12 @@ const ScreenController = (function ScreenController() {
     }
     newGame.addEventListener('click', function () {
         alert("newgame")
-        GameController.newGame();
+        game.newGame();
         updateScreen();
     });
     reset.addEventListener('click', function () {
         alert("reset")
-        GameController.resetGame();
+        game.resetGame();
         updateScreen();
     })
 
@@ -241,9 +264,9 @@ const ScreenController = (function ScreenController() {
         const colVal = e.target.dataset.column;
         if (!rowVal) return;
         if (!colVal) return;
-        const gameWon = gameController.gamestatus();
+        const gameWon = game.gamestatus();
         if (gameWon) return;
-        gameController.playRound(rowVal, colVal, gameController.getActivePlayer());
+        game.playRound(rowVal, colVal, game.getActivePlayer());
 
 
         updateScreen();
