@@ -11,6 +11,7 @@
 </head>
 
 <body>
+    <div class="hideModal"></div>
     <div class="Modal">
         <form action="">
         <label for="playerOne">Player One</label>
@@ -32,14 +33,23 @@
             <div><button type="button" class="btn btn-light">Reset Game</button> </div>
             <div> <button type="button" class="btn btn-dark">New Game</button></div>
             <div class="row">
+                <label for="playerOneScoreName" id="player_one_name">
+                    Player One Score
+                </label>
                 <input type="text" name="playeronescore" id="score1" placeholder="Kingshukscore">
             </div>
             <div class="row">
+                <label for="playerTwoScoreName"  id="player_two_name">
+                    Player Two Score
+                </label>
                 <input type="text" name="playertwoscore" id="score2" placeholder="yashwantscore">
             </div>
 
         </div>
     </div>
+    <script>
+        
+    </script>
     <script src="tictactoe.js"></script>
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
         integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"

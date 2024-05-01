@@ -47,10 +47,10 @@ function Cell() {
         setToken
     };
 }
-function GameController(
-    //playerone = "KingShuk",
-    playerone = "p1",
-    playertwo = "p2",
+const GameController = (function GameController(
+  
+    playerone = "Player One",
+    playertwo = "Player Two",
 ) {
 
     const game_board = gameboard;
@@ -171,7 +171,7 @@ function GameController(
             });
         });
     }
-    function playersreturn(i){
+    function getPlayer(i){
         return players[i].name;
     }
     function seyplayer(i,pname){
@@ -190,10 +190,11 @@ function GameController(
         check_wins,
         resetGame,
         gamestatus,
-        seyplayer
+        seyplayer,
+        getPlayer
 
     }
-};
+})();
 const ScreenController = (function ScreenController() {
     const modal = document.querySelector('.Modal')
     const button = document.querySelector('#submit')
@@ -204,16 +205,25 @@ const ScreenController = (function ScreenController() {
     const reset = document.querySelector('.btn-light');
     const newGame = document.querySelector('.btn-dark');
 
-    const game = GameController();
+    const game = GameController;
     const playerturnDiv = document.querySelector('.turn');// update here
     const boardDiv = document.querySelector(".board");
     button.addEventListener('click',function(e){
         e.preventDefault();
-        // game.playerone=document.querySelector("#playerOne").value;
-        game.seyplayer(0, document.querySelector("#playerOne").value);
-        game.seyplayer(1, document.querySelector("#playerTwo").value);
-
-        // console.log(GameController.playerone);
+        document.querySelector(".hideModal").style.display= "none";
+        if (document.querySelector("#playerOne").value == undefined || document.querySelector("#playerTwo").value == undefined)
+        
+        {
+                return;
+        }
+        if (document.querySelector("#playerOne").value !== undefined) {
+            game.seyplayer(0, document.querySelector("#playerOne").value);
+            document.querySelector("#player_one_name").textContent = document.querySelector("#playerOne").value + " " +"Score:";
+        }
+        if (document.querySelector("#playerTwo").value !== undefined) {
+            game.seyplayer(1, document.querySelector("#playerTwo").value);
+            document.querySelector("#player_two_name").textContent = document.querySelector("#playerTwo").value + " " + "Score:";
+        }
 
         modal.style.display = "none";
         updateScreen();
@@ -229,7 +239,6 @@ const ScreenController = (function ScreenController() {
         const score1 = document.querySelector('#score1');
         const score2 = document.querySelector('#score2');
         score1.value = playerOneScore;
-        console.log(game.players);
         score2.value = playerTwoScore;
 
         //add cell css  to that 
